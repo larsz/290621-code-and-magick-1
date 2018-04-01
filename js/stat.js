@@ -6,6 +6,7 @@ var CLOUD_X = 100;
 var CLOUD_Y = 10;
 var CLOUD_OFFSET = 10;
 var CLOUD_COLOR = '#fff';
+var CLOUD_SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 var LEGEND_GAP = 20;
 var BASE_FONT = 'PT Mono 16px';
 var FONT_COLOR = '#000';
@@ -46,7 +47,7 @@ var getRandomBarColor = function () {
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, CLOUD_X + CLOUD_OFFSET, CLOUD_Y + CLOUD_OFFSET, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X + CLOUD_OFFSET, CLOUD_Y + CLOUD_OFFSET, CLOUD_SHADOW_COLOR);
   renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
 
   renderText(ctx, 'Ура, вы победили!', CLOUD_X + LEGEND_GAP, CLOUD_Y + CLOUD_OFFSET + LEGEND_GAP, FONT_COLOR, BASE_FONT);
