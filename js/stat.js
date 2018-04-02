@@ -33,7 +33,7 @@ var renderBar = function (ctx, x, y, width, height, color) {
 
 var getMaxElement = function (arr) {
   var maxElement = arr[0];
-  for (var i = 0, max = arr.length; i < max; i++) {
+  for (var i = 1, max = arr.length; i < max; i++) {
     if (arr[i] > maxElement) {
       maxElement = arr[i];
     }
@@ -60,6 +60,8 @@ window.renderStatistics = function (ctx, names, times) {
     var barX = CLOUD_X + LEGEND_GAP + (BAR_WIDTH + BAR_GAP) * i;
     var barY = (CLOUD_HEIGHT - LEGEND_GAP) - barHeight;
     var barColor = getRandomBarColor();
+    var playerNameY = barY + barHeight + LEGEND_GAP;
+    var playerTimeY = barY - CLOUD_OFFSET;
 
     if (names[i] === 'Вы') {
       barColor = YOUR_BAR_COLOR;
@@ -69,10 +71,10 @@ window.renderStatistics = function (ctx, names, times) {
     renderBar(ctx, barX, barY, BAR_WIDTH, barHeight, barColor);
 
     // player names
-    renderText(ctx, names[i], barX, barY + barHeight + LEGEND_GAP, FONT_COLOR);
+    renderText(ctx, names[i], barX, playerNameY, FONT_COLOR, BASE_FONT);
 
     // player times
-    renderText(ctx, Math.round(times[i]), barX, barY - CLOUD_OFFSET, FONT_COLOR);
+    renderText(ctx, Math.round(times[i]), barX, playerTimeY, FONT_COLOR, BASE_FONT);
 
   }
 };
