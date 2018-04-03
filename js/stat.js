@@ -13,7 +13,8 @@ var FONT_COLOR = '#000';
 var BAR_WIDTH = 40;
 var MAX_BAR_HEIGHT = 150;
 var BAR_GAP = 50;
-var YOUR_BAR_COLOR = 'rgba(255, 0, 0, 1)';
+var CURRENT_USER = 'Вы';
+var CURRENT_USER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -59,13 +60,9 @@ window.renderStatistics = function (ctx, names, times) {
     var barHeight = Math.round(times[i] * (MAX_BAR_HEIGHT / maxTime));
     var barX = CLOUD_X + LEGEND_GAP + (BAR_WIDTH + BAR_GAP) * i;
     var barY = (CLOUD_HEIGHT - LEGEND_GAP) - barHeight;
-    var barColor = getRandomBarColor();
     var playerNameY = barY + barHeight + LEGEND_GAP;
     var playerTimeY = barY - CLOUD_OFFSET;
-
-    if (names[i] === 'Вы') {
-      barColor = YOUR_BAR_COLOR;
-    }
+    var barColor = names[i] === CURRENT_USER ? CURRENT_USER_BAR_COLOR : getRandomBarColor();
 
     // bars
     renderBar(ctx, barX, barY, BAR_WIDTH, barHeight, barColor);
