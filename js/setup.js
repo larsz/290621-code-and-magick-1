@@ -82,14 +82,19 @@ var renderWizard = function (wizard) {
   return clonedWizard;
 };
 
-var wizardsFragment = document.createDocumentFragment();
-var showWizards = function () {
+var makeWizardsFragment = function () {
+  var wizardsFragment = document.createDocumentFragment();
   for (var i = 0, max = generatedWizards.length; i < max; i++) {
     wizardsFragment.appendChild(renderWizard(generatedWizards[i]));
   }
-  similarListElement.appendChild(wizardsFragment);
+  return wizardsFragment;
+};
+
+var renderedWizards = makeWizardsFragment();
+
+var showWizards = function () {
+  similarListElement.appendChild(renderedWizards);
+  similarWizardsElement.classList.remove('hidden');
 };
 
 showWizards();
-similarWizardsElement.classList.remove('hidden');
-
