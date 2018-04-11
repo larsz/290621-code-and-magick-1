@@ -39,8 +39,10 @@ var WizardConsts = {
   QUANTITY: 4
 };
 
-var setupElement = document.querySelector('.setup');
-setupElement.classList.remove('hidden');
+var KeyCode = {
+  ESC: 27,
+  ENTER: 13
+};
 
 var getRandomNumber = function (max) {
   return Math.round(Math.random() * max);
@@ -98,3 +100,59 @@ var showWizards = function () {
 };
 
 showWizards();
+
+var setupElement = document.querySelector('.setup');
+var setupOpenElement = document.querySelector('.setup-open');
+var setupCloseElement = setupElement.querySelector('.setup-close');
+var usernameInputElement = setupElement.querySelector('.setup-user-name');
+
+var openPopup = function (){
+  setupElement.classList.remove('hidden');
+  setupCloseElement.addEventListener('click', popupCloseClickHandler);
+  setupCloseElement.addEventListener('keydown', popupCloseKeyDownHandler);
+  document.addEventListener('keydown', popupEscClickHandler);
+};
+
+var closePopup = function () {
+  setupElement.classList.add('hidden');
+  setupCloseElement.removeEventListener('click', popupCloseClickHandler);
+  setupCloseElement.removeEventListener('keydown', popupCloseKeyDownHandler);
+  document.removeEventListener('keydown', popupEscClickHandler);
+};
+
+// handlers
+var popupEscClickHandler = function (evt) {
+  if (evt.keyCode === KeyCode.ESC) {
+    closePopup();
+  }
+};
+
+var popupCloseClickHandler = function () {
+  closePopup();
+};
+
+var popupCloseKeyDownHandler = function (evt) {
+  if (evt.keyCode === KeyCode.ENTER) {
+    closePopup();
+  }
+};
+
+// open popup handlers
+setupOpenElement.addEventListener('click', function() {
+  openPopup();
+});
+
+setupOpenElement.addEventListener('keydown', function(evt){
+  if (evt.keyCode === KeyCode.ENTER) {
+    openPopup();
+  }
+});
+
+// username input focus handlers
+usernameInputElement.addEventListener('focusin', function() {
+  document.removeEventListener('keydown', popupEscClickHandler);
+});
+
+usernameInputElement.addEventListener('focusout', function() {
+  document.addEventListener('keydown', popupEscClickHandler);
+})
