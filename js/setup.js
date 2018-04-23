@@ -11,6 +11,72 @@
   var mainWizardFireballElement = mainWizardSetupElement.querySelector('.setup-fireball-wrap');
   var mainWizardFireballInputElement = mainWizardSetupElement.querySelector('input[name="fireball-color"]');
 
+  var shopElement = document.querySelector('.setup-artifacts-shop');
+  var artifactsElement = document.querySelector('.setup-artifacts');
+  var artifactsCellElement = artifactsElement.querySelectorAll('.setup-artifacts-cell');
+  var draggedItem = null;
+
+  var ALLOWED_CELL_STYLE = '2px dashed red';
+  var HOVERED_CELL_STYLE = 'yellow';
+
+  shopElement.addEventListener('dragstart', function (evt) {
+    if (evt.target.tagName.toLowerCase() === 'img') {
+      draggedItem = evt.target;
+      evt.dataTransfer.setData('text/plain', evt.target.alt);
+    }
+
+    artifactsCellElement.forEach(function (cell) {
+      cell.style.outline = ALLOWED_CELL_STYLE;
+    });
+
+  });
+
+  artifactsElement.addEventListener('dragover', function (evt) {
+    evt.preventDefault();
+    return false;
+  });
+
+  artifactsElement.addEventListener('dragstart', function () {
+    artifactsCellElement.forEach(function (cell) {
+      cell.style.outline = ALLOWED_CELL_STYLE;
+    });
+  });
+
+  artifactsElement.addEventListener('drop', function (evt) {
+    evt.preventDefault();
+    evt.target.style.backgroundColor = '';
+
+    if (evt.target.tagName.toLowerCase() === 'div') {
+      evt.target.appendChild(draggedItem);
+    }
+
+    artifactsCellElement.forEach(function (cell) {
+      cell.style.outline = '';
+    });
+
+  });
+
+  artifactsElement.addEventListener('dragenter', function (evt) {
+    evt.preventDefault();
+    if (evt.target.tagName.toLowerCase() === 'div') {
+      evt.target.style.backgroundColor = HOVERED_CELL_STYLE;
+    }
+  });
+
+  artifactsElement.addEventListener('dragleave', function (evt) {
+    evt.preventDefault();
+    evt.target.style.backgroundColor = '';
+  });
+
+  document.addEventListener('dragend', function (evt) {
+    evt.preventDefault();
+
+    artifactsCellElement.forEach(function (cell) {
+      cell.removeAttribute('style');
+    });
+
+  });
+
   var mainWizardCoatClickHandler = function () {
     var randomCoatColor = window.utils.getRandomElement(window.WizardConsts.COAT_COLOR);
     window.utils.colorize(mainWizardCoatElement, randomCoatColor);
